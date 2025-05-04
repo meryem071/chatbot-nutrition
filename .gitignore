@@ -1,0 +1,34 @@
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Cache et bytecode Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Config utilisateur
+*.env
+*.DS_Store
+
+# Bases de données locales
+*.sqlite
+*.db
+
+# Jupyter notebooks checkpoint (si tu en as)
+.ipynb_checkpoints/
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+
+# Dossiers Streamlit
+.streamlit/config.toml
+
+# Systèmes OS
+Thumbs.db
+.DS_Store
+
+# VSCode
+.vscode/
