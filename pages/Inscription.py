@@ -37,7 +37,7 @@ def signup_page(extra_input_params=False, confirmPass=False):
     """Render the signup page with optional extra input parameters and password confirmation."""
 
     if st.button("Retour à la connexion"):
-        st.switch_page("pages\login_page.py")
+        st.switch_page("pages\Connexion.py")
 
 
     with st.empty().container(border=True):
@@ -74,7 +74,7 @@ def signup_page(extra_input_params=False, confirmPass=False):
                         save_user(st.session_state['email'], st.session_state['password'], st.session_state.get('extra_input_params', {}))
                         st.success("Inscription réussie !")
                         time.sleep(1)
-                        st.switch_page("pages/login_page.py")  
+                        st.switch_page("pages/Connexion.py")  
         else:
             if confirmPass and st.session_state['password'] != confirm_password:
                 st.error("Les mots de passe ne correspondent pas")

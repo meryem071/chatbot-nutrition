@@ -51,4 +51,4 @@ if uploaded_files and st.button("Ajouter à la base de données"):
     db.save_local(DB_PATH)
 
 if st.button("⬅️ Retour à ma session"):
-    st.switch_page("frontend.py")
+    st.switch_page("Ma_session.py")

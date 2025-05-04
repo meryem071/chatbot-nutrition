@@ -48,10 +48,10 @@ with col2:
                 st.session_state['role'] = "user"
 
             st.success("Connexion réussie !")
-            st.switch_page("frontend.py")
+            st.switch_page("Ma_session.py")
 
         else:
             st.error("Identifiant de connexion invalide")
 
     if st.button("Créer un compte"):
-        st.switch_page("pages/signup_page.py")  
+        st.switch_page("pages/Inscription.py")  

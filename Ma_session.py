@@ -81,26 +81,29 @@ with st.sidebar:
         st.session_state.sessions[new_title] = []
         st.session_state.current_session = new_title
         st.rerun()
+    
+
 
     st.markdown("---")
     st.caption("👤 Connecté en tant que :")
+    st.write(st.session_state.get("email", "Invité"))
+
     st.markdown("### ⚙️ Mode d'interaction")
     mode = st.radio("Choisir un mode :", ["Standard", "RAG"], index=0)
 
-    st.write(st.session_state.get("email", "Invité"))
 
     # 🔐 Bouton admin visible uniquement pour l'admin
     if st.session_state.get("role") == "admin":
         st.markdown("---")
         st.markdown("### 🔐 Zone Admin")
         if st.button("➕ Ajouter des documents"):
-            st.switch_page("pages/upload.py")  # Tu dois créer ce fichier
+            st.switch_page("pages/Ajout_de_documents.py")  # Tu dois créer ce fichier
 
     st.markdown("---")
     if st.button("🚪 Déconnexion", use_container_width=True):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
-        st.switch_page("pages/login_page.py")
+        st.switch_page("pages/Connexion.py")
 
 
 # AFFICHAGE des messages

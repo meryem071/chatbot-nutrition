@@ -36,12 +36,12 @@ with col1:
     if st.button("🧪 Tester sans compte"):
         st.session_state["guest_mode"] = True
         st.session_state["authenticated"] = True
-        st.switch_page("frontend.py")
+        st.switch_page("Ma_session.py")
         st.rerun()
 
 with col2:
     if st.button("🔐 Connexion / Inscription"):
         st.session_state["guest_mode"] = False
         st.session_state["authenticated"] = False
-        st.switch_page("pages/login_page.py")
+        st.switch_page("pages/Connexion.py")
         st.rerun()
