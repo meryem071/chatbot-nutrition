@@ -2,13 +2,11 @@ import streamlit as st
 import re
 from db_handler import save_user, verify_duplicate_user
 import time
-from streamlit_extras.switch_page_button import switch_page
+
 
 st.set_page_config(page_title="Inscription", initial_sidebar_state="collapsed")
-# Masquer le bouton burger de la sidebar
-# Set page configuration to collapse the sidebar initially
 
-# Use CSS to hide the sidebar and its control button
+
 st.markdown(
 """
 <style>
@@ -37,8 +35,6 @@ def input_field(input_param, type):
 
 def signup_page(extra_input_params=False, confirmPass=False):
     """Render the signup page with optional extra input parameters and password confirmation."""
-
-    st.set_page_config(page_title="Inscription - Chatbot")
 
     if st.button("Retour à la connexion"):
         st.switch_page("pages\login_page.py")
@@ -78,7 +74,7 @@ def signup_page(extra_input_params=False, confirmPass=False):
                         save_user(st.session_state['email'], st.session_state['password'], st.session_state.get('extra_input_params', {}))
                         st.success("Inscription réussie !")
                         time.sleep(1)
-                        st.switch_page("pages\login_page.py")  
+                        st.switch_page("pages/login_page.py")  
         else:
             if confirmPass and st.session_state['password'] != confirm_password:
                 st.error("Les mots de passe ne correspondent pas")

@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 import uvicorn
 from llm import ask_llm
 from pydantic import BaseModel
+from rag_handler import query_with_rag
+
 from db_handler import save_user
 
 app = FastAPI()
@@ -15,6 +17,29 @@ async def get_llm_response(prompt: str):
         return {"answer": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+from rag_handler import query_with_rag
+
+class RAGRequest(BaseModel):
+    question: str
+    history: list  # [{"role": ..., "content": ...}]
+
+@app.post("/rag_with_memory")
+async def rag_with_memory(data: RAGRequest):
+    try:
+        answer = query_with_rag(data.question, history=data.history)
+        return {"answer": answer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/rag/{question}")
+async def rag_search(question: str):
+    try:
+        answer = query_with_rag(question)
+        return {"answer": answer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Route simple de test (optionnelle)
 @app.get("/")

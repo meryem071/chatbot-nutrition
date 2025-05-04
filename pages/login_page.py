@@ -40,10 +40,18 @@ with col2:
             st.session_state['authenticated'] = True
             st.session_state['guest_mode'] = False
             st.session_state['email'] = email
+
+            # 🎯 Définir le rôle selon l'e-mail
+            if email == "admin@test.com":  # Remplace par l'adresse réelle de l'admin
+                st.session_state['role'] = "admin"
+            else:
+                st.session_state['role'] = "user"
+
             st.success("Connexion réussie !")
-            st.switch_page("frontend.py")  
+            st.switch_page("frontend.py")
+
         else:
             st.error("Identifiant de connexion invalide")
 
     if st.button("Créer un compte"):
-        st.switch_page("pages\signup_page.py")  
+        st.switch_page("pages/signup_page.py")  

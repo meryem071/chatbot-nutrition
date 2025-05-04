@@ -43,5 +43,5 @@ with col2:
     if st.button("🔐 Connexion / Inscription"):
         st.session_state["guest_mode"] = False
         st.session_state["authenticated"] = False
-        st.switch_page("pages\login_page.py")
+        st.switch_page("pages/login_page.py")
         st.rerun()

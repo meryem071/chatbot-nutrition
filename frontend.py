@@ -13,6 +13,18 @@ def response_generator(prompt):
         yield word + " "
         time.sleep(0.03)  # Un peu plus rapide pour fluidité
 
+
+def response_generator_rag_with_history(prompt, history):
+    url = "http://localhost:8000/rag_with_memory"
+    payload = {"question": prompt, "history": history}
+    response = requests.post(url, json=payload)
+    response_text = response.json().get("answer", "Erreur : aucune réponse reçue.")
+    for word in response_text.split():
+        yield word + " "
+        time.sleep(0.03)
+
+
+
 # CONFIG
 st.set_page_config(page_title="🤖 Chatbot Nutrition", layout="wide")
 st.markdown("## 🤖 Chatbot Nutrition & Cuisine")
@@ -25,7 +37,7 @@ if "guest_mode" not in st.session_state:
     st.session_state.guest_mode = False
 
 if not st.session_state.authenticated:
-    st.switch_page("pages\home.py")
+    st.switch_page("pages/home.py")
     st.stop()
 
 # CHARGEMENT des conversations en BDD
@@ -72,7 +84,24 @@ with st.sidebar:
 
     st.markdown("---")
     st.caption("👤 Connecté en tant que :")
+    st.markdown("### ⚙️ Mode d'interaction")
+    mode = st.radio("Choisir un mode :", ["Standard", "RAG"], index=0)
+
     st.write(st.session_state.get("email", "Invité"))
+
+    # 🔐 Bouton admin visible uniquement pour l'admin
+    if st.session_state.get("role") == "admin":
+        st.markdown("---")
+        st.markdown("### 🔐 Zone Admin")
+        if st.button("➕ Ajouter des documents"):
+            st.switch_page("pages/upload.py")  # Tu dois créer ce fichier
+
+    st.markdown("---")
+    if st.button("🚪 Déconnexion", use_container_width=True):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.switch_page("pages/login_page.py")
+
 
 # AFFICHAGE des messages
 messages = st.session_state.sessions.get(st.session_state.current_session, [])
@@ -111,7 +140,13 @@ if prompt:
 
     # Générer la réponse
     with st.chat_message("assistant", avatar="🤖"):
-        response = st.write_stream(response_generator(prompt))
+        if mode == "RAG":
+            history = st.session_state.sessions[conv_title][:-1]
+            response = st.write_stream(response_generator_rag_with_history(prompt, history))
+        else:
+            response = st.write_stream(response_generator(prompt))
+
+
 
     # Sauvegarde réponse
     st.session_state.sessions[conv_title].append({"role": "assistant", "content": response})
